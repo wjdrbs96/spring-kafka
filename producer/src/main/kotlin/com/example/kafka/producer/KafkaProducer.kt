@@ -21,6 +21,8 @@ class KafkaProducer(
 
     @GetMapping("/producer")
     fun producer() {
+//        val chars = Array(1 * 1024 * 1024) { 'a' }
+//        kafkaTemplate.send("test-topic", String(chars.toCharArray()))
         for (i in 1..500) {
             kafkaTemplate.send("test-kafka", "test$i")
         }
