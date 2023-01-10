@@ -15,13 +15,21 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 class KafkaProducer(
-    private val kafkaTemplate: KafkaTemplate<String, String>
+    private val kafkaTemplate: KafkaTemplate<String, String>,
+    private val customKafkaTemplate: KafkaTemplate<String, String>
 ) {
 
     @GetMapping("/producer")
     fun producer() {
         for (i in 1..500) {
-            kafkaTemplate.send("gyun", "Key", "test$i")
+            kafkaTemplate.send("test-kafka", "test$i")
+        }
+    }
+
+    @GetMapping("/producer/key")
+    fun producerKey() {
+        for (i in 1..500) {
+            kafkaTemplate.send("test-kafka", "Key", "test$i")
         }
     }
 
@@ -29,7 +37,7 @@ class KafkaProducer(
     fun customProducer() {
         for (i in 1..500) {
             val listRecords = listOf(Record("이름1", 1), Record("이름2", 2))
-            kafkaTemplate.send("gyun", "Key", JsonUtils.DEFAULT_OBJECT_MAPPER.writeValueAsString(listRecords))
+            customKafkaTemplate.send("test-kafka", "Key", JsonUtils.DEFAULT_OBJECT_MAPPER.writeValueAsString(listRecords))
         }
     }
 }
