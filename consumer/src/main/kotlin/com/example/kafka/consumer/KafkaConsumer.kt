@@ -18,7 +18,6 @@ class KafkaConsumer {
 
     @KafkaListener(topics = ["test-kafka"], containerFactory = "consumerFactory", concurrency = "3")
     fun basicConsumer(@Payload rawData: String) {
-        Thread.sleep(5000)
         println("=====Consumer 시작=====")
         println("Consumer: $rawData")
         println("=====Consumer 종료=====")
