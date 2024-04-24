@@ -1,7 +1,5 @@
 package com.example.kafka.consumer
 
-import com.example.kafka.dto.Record
-import com.example.kafka.util.JsonUtils
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
@@ -16,12 +14,19 @@ import org.springframework.stereotype.Component
 @Component
 class KafkaConsumer {
 
-    @KafkaListener(topics = ["test-kafka"], containerFactory = "consumerFactory", concurrency = "3")
+    @KafkaListener(topics = ["test-kafka"], containerFactory = "consumerFactory")
     fun basicConsumer(@Payload rawData: String) {
         println("=====Consumer 시작=====")
-        println("Consumer: $rawData")
+        println("Consumer1: $rawData")
         println("=====Consumer 종료=====")
     }
+
+//    @KafkaListener(topics = ["test-kafka"], containerFactory = "consumerFactory2")
+//    fun basic2Consumer(@Payload rawData: String) {
+//        println("=====Consumer 시작=====")
+//        println("Consumer2: $rawData")
+//        println("=====Consumer 종료=====")
+//    }
 
 //    @KafkaListener(topics = ["test-kafka"], containerFactory = "customConsumerFactory", concurrency = "3")
 //    fun customConsumer(@Payload rawData: String) {

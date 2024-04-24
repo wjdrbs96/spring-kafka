@@ -19,12 +19,12 @@ class KafkaProducer(
     private val customKafkaTemplate: KafkaTemplate<String, String>
 ) {
 
-    @GetMapping("/producer")
+    @GetMapping("/producer/transaction")
     fun producer() {
 //        val chars = Array(1 * 1024 * 1024) { 'a' }
 //        kafkaTemplate.send("test-topic", String(chars.toCharArray()))
         kafkaTemplate.executeInTransaction { t -> {
-            for (i in 1..500) {
+            for (i in 1..5) {
                 t.send("test-kafka", "test$i")
             }
         } }
@@ -32,14 +32,14 @@ class KafkaProducer(
 
     @GetMapping("/producer/key")
     fun producerKey() {
-        for (i in 1..500) {
+        for (i in 1..5) {
             kafkaTemplate.send("test-kafka", "Key", "test$i")
         }
     }
 
     @GetMapping("/producer/custom")
     fun customProducer() {
-        for (i in 1..500) {
+        for (i in 1..5) {
             val listRecords = listOf(Record("이름1", 1), Record("이름2", 2))
             customKafkaTemplate.send("test-kafka", "Key", JsonUtils.DEFAULT_OBJECT_MAPPER.writeValueAsString(listRecords))
         }
